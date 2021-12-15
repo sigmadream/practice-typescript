@@ -1,7 +1,5 @@
 import fs from 'fs';
 
-// 10/08/2018,Man United,Leicester,2,1,H,A Marriner
-
 const matches = fs
   .readFileSync('football.csv', {
     encoding: 'utf-8',
@@ -11,12 +9,15 @@ const matches = fs
     return row.split(',');
   });
 
+const homeWin = 'H';
+const awayWin = 'A';
+
 let manUnitedWins = 0;
 
 for (let match of matches) {
-  if (match[1] === 'Man United' && match[5] === 'H') {
+  if (match[1] === 'Man United' && match[5] === homeWin) {
     manUnitedWins++;
-  } else if (match[2] === 'Man United' && match[5] === 'A') {
+  } else if (match[2] === 'Man United' && match[5] === awayWin) {
     manUnitedWins++;
   }
 }
