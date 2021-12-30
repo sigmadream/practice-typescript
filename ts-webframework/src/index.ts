@@ -1,9 +1,22 @@
-import { User } from './models/User';
+import { UserList } from './views/UserList';
+import { Collection } from './models/Collection';
+import { UserProps, User } from './models/User';
+import { UserForm } from './views/UserForm';
 
-const user = new User({ name: 'new22', age: 22 });
+const users = new Collection(
+  'http://localhost:3000/users',
+  (json: UserProps) => {
+    return User.buildUser(json);
+  }
+);
 
-user.on('save', () => {
-  console.log(user);
+users.on('change', () => {
+  const root = document.getElementById('root');
+
+  if (root) {
+    new UserList(root, users).render();
+    // new UserForm(root, User.buildUser({ name: 'name', age: 20 })).render();
+  }
 });
 
-user.save();
+users.fetch();
